@@ -8,9 +8,20 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function create(CreateUserRequest $request, UserService $service)
+
+    public function __construct(private UserService $userService) {}
+
+    // este metodo create ya no vamos utilizar porque ya tenemos register
+    // dentro del controlador AuthController
+    public function create(CreateUserRequest $request)
     {
-        $user = $service->create(data: $request->validated());
+        $user = $this->userService->create(data: $request->validated());
         return response()->json(data: $user, status: 201);
+    }
+
+    public function findById(int $id)
+    {
+        $user = $this->userService->findById($id);
+        return response()->json(data: $user, status: 200);
     }
 }
