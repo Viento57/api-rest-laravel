@@ -10,6 +10,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // Route::post('/users', [UserController::class, 'create']);
-Route::get('/users/{id}', [UserController::class, 'findById']);
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('/users/{id}', [UserController::class, 'findById']);
+});
+
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
